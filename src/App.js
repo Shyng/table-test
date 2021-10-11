@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './App.css';
 import { APIgetSamples } from './utils/api';
+import CompaignItem from './campaign-item';
 
 const initState = () => ({
     loading: true,
@@ -27,7 +28,7 @@ class App extends Component {
       // console.log(res)
       // setTimeout(() => {
       const random = Math.random();
-      if(random > 0.7) {
+      if(random > 0.6) {
           this.setState({
               campaigns: res.campaigns || [],
               loading: false,
@@ -53,13 +54,18 @@ class App extends Component {
                           campaigns.length ?
                           <div className="campaign-list">
                               {
-                                  campaigns.map((campItem) => {
-                                      return <div className="campaign-item" key={campItem.id}>
-                                          <div className="campaign-head">
-                                              <div className="campaign-name">{campItem.campaign_name}</div>
-                                          </div> 
-                                      </div>
-                                  })
+                                  campaigns.map(({ 
+                                      id, 
+                                      campaign_name,
+                                      campaign_icon_url
+                                  }) => 
+                                      <CompaignItem 
+                                          key={id}
+                                          id={id}
+                                          name={campaign_name}
+                                          icon={campaign_icon_url}
+                                      />
+                                  )
                               }
                           </div> :
                           <div className="campaign-empty">暂无内容</div>
